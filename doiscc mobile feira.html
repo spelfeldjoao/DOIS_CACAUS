@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dois Cacaus | Confeitaria Gourmet</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cacau: {
+                            50: '#FDFBF7',
+                            100: '#F8F3ED',
+                            200: '#EFE5DA',
+                            300: '#DCC5B2',
+                            400: '#C29C7F',
+                            500: '#A36F4C',
+                            600: '#7E4E30',
+                            700: '#5A341E',
+                            800: '#3D2314',
+                            900: '#25130A'
+                        },
+                        gold: {
+                            light: '#F3E2B8',
+                            DEFAULT: '#D4A359',
+                            dark: '#A67732'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    boxShadow: {
+                        'gourmet': '0 20px 40px -15px rgba(61, 35, 20, 0.08), 0 0 15px rgba(212, 163, 89, 0.05)',
+                        'gourmet-hover': '0 25px 50px -12px rgba(61, 35, 20, 0.18), 0 0 25px rgba(212, 163, 89, 0.15)',
+                        'gold-glow': '0 0 20px rgba(212, 163, 89, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #F8F3ED;
+            color: #25130A;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F8F3ED;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #DCC5B2;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A36F4C;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .toast-enter {
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Glassmorphism header */
+        .glass-header {
+            background: rgba(61, 35, 20, 0.94);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased flex flex-col min-h-screen selection:bg-gold/30 selection:text-cacau-900">
+
+    <header class="glass-header text-cacau-50 sticky top-0 z-40 shadow-xl border-b border-gold/20 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                
+                <!-- Logo & Brand Header -->
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <div class="p-1 rounded-xl transition-all">
+                    </div>
+                    <div>
+                        <h1 class="font-serif text-xl sm:text-2xl font-bold tracking-wide text-white">Dois Cacaus</h1>
+                        <p class="text-[10px] sm:text-xs tracking-wider text-gold font-medium -mt-0.5">Confeitaria Gourmet</p>
+                    </div>
+                </div>
+                
+                <!-- Navigation Cart Action Button -->
+                <button id="cartBtn" class="relative group p-2.5 sm:px-4 sm:py-2.5 text-cacau-100 hover:text-gold transition-all duration-300 bg-cacau-700/80 hover:bg-cacau-700 rounded-2xl border border-gold/30 hover:border-gold flex items-center justify-center gap-2.5 shadow-md active:scale-95" aria-label="Abrir carrinho de compras">
+                    <i class="ph ph-shopping-bag text-2xl group-hover:scale-110 transition-transform text-gold"></i>
+                    <span class="text-xs font-bold tracking-wide hidden md:inline">Meu Carrinho</span>
+                    <span id="cartBadge" class="inline-flex items-center justify-center px-2 py-0.5 text-xs font-extrabold leading-none text-white transform bg-red-600 rounded-full shadow-lg hidden border-2 border-cacau-800 animate-pulse">
+                        0
+                    </span>
+                </button>
+
+            </div>
+        </div>
+    </header>
+
+    <section class="relative bg-gradient-to-b from-cacau-100 via-cacau-50 to-[#F8F3ED] overflow-hidden py-14 md:py-20 text-center border-b border-cacau-200/60">
+        <!-- Background Ambient Glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center">
+            
+            <!-- Hero Logo Display -->
+            <div class="mb-6 max-w-[220px] sm:max-w-[290px] transition-all duration-500 hover:scale-105 animate-float drop-shadow-2xl">
+                <img src="LOGO_DOIS_CACAUS_OFC-removebg-preview.copia.png" 
+                     alt="Dois Cacaus Logo Oficial" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/300x300/3D2314/FFFFFF?text=Dois+Cacaus'"
+                     class="w-full h-auto object-contain">
+            </div>
+
+            <!-- Main Slogan -->
+            <h2 class="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-cacau-800 leading-tight tracking-tight max-w-3xl">
+                "Dois cacaus, o carinho que você merece"
+            </h2>
+
+            <!-- Decorative Sparkle Accent -->
+            <div class="flex items-center gap-3 mt-8">
+                <div class="w-12 h-[1px] bg-gradient-to-r from-transparent to-gold"></div>
+                <i class="ph-fill ph-sparkle text-gold text-sm"></i>
+                <div class="w-12 h-[1px] bg-gradient-to-l from-transparent to-gold"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20 flex-grow">
+        
+        <div class="flex flex-col items-center mb-12 text-center">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-gold bg-cacau-800 px-4 py-1.5 rounded-full shadow-sm mb-3">
+                Seleção Especial
+            </span>
+            <h3 class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-cacau-800">Nossas Delícias</h3>
+            <p class="text-sm text-cacau-600 mt-2 max-w-md">Escolha sua opção, selecione seus sabores favoritos e receba seu pedido.</p>
+            <div class="w-24 h-1 bg-gradient-to-r from-gold/40 via-gold to-gold/40 rounded-full mt-4"></div>
+        </div>
+        
+        <!-- Products Grid Container -->
+        <div id="productGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 justify-items-center">
+            <!-- Cards generated dynamically via JavaScript -->
+        </div>
+
+    </main>
+
+    <div id="lightboxModal" class="fixed inset-0 z-50 hidden" aria-labelledby="lightbox-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div id="lightboxOverlay" class="fixed inset-0 bg-cacau-900/90 backdrop-blur-md transition-opacity duration-300 opacity-0" onclick="closeLightbox()"></div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto flex items-center justify-center p-4">
+            <div id="lightboxPanel" class="relative w-full max-w-4xl bg-cacau-900/90 border border-gold/30 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 transform scale-95 opacity-0 flex flex-col">
+                
+                <!-- Lightbox Header -->
+                <div class="p-4 sm:p-6 flex items-center justify-between border-b border-cacau-700/80 bg-cacau-950/60 text-white">
+                    <div>
+                        <h4 id="lightboxTitle" class="font-serif text-lg sm:text-xl font-bold text-cacau-50">Galeria de Fotos</h4>
+                        <p id="lightboxSubtitle" class="text-xs text-gold">Explore nossos produtos</p>
+                    </div>
+                    <button type="button" onclick="closeLightbox()" class="text-cacau-300 hover:text-white p-2 rounded-xl bg-cacau-800/80 hover:bg-cacau-700 transition-colors">
+                        <i class="ph ph-x text-2xl"></i>
+                    </button>
+                </div>
+
+                <!-- Lightbox Main Image & Navigation Controls -->
+                <div id="lightboxTouchArea" class="relative bg-black/40 flex items-center justify-center min-h-[320px] sm:min-h-[420px] p-4 select-none">
+                    
+                    <!-- Prev Button -->
+                    <button type="button" onclick="prevLightboxImage()" class="absolute left-3 z-20 p-3 rounded-full bg-cacau-900/80 hover:bg-gold text-white hover:text-cacau-900 border border-gold/40 transition-all shadow-xl backdrop-blur-sm">
+                        <i class="ph ph-caret-left text-2xl"></i>
+                    </button>
+
+                    <!-- Main Image container -->
+                    <div id="lightboxImageWrapper" class="w-full flex justify-center items-center h-72 sm:h-96">
+                        <img id="lightboxMainImage" src="" alt="Foto do Produto" class="max-h-full max-w-full object-contain rounded-2xl shadow-2xl transition-all duration-300">
+                    </div>
+
+                    <!-- Next Button -->
+                    <button type="button" onclick="nextLightboxImage()" class="absolute right-3 z-20 p-3 rounded-full bg-cacau-900/80 hover:bg-gold text-white hover:text-cacau-900 border border-gold/40 transition-all shadow-xl backdrop-blur-sm">
+                        <i class="ph ph-caret-right text-2xl"></i>
+                    </button>
+                </div>
+
+                <!-- Lightbox Footer & Action CTA -->
+                <div class="p-4 sm:p-6 bg-cacau-900 border-t border-cacau-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    
+                    <!-- Thumbnails row -->
+                    <div id="lightboxThumbnails" class="flex items-center gap-2.5 overflow-x-auto no-scrollbar py-1">
+                        <!-- Injected via JS -->
+                    </div>
+
+                    <!-- Quick Action Button -->
+                    <button id="lightboxActionBtn" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-gold to-gold-dark text-cacau-950 font-bold text-xs rounded-xl shadow-lg hover:shadow-gold-glow transition-all flex items-center justify-center gap-2 flex-shrink-0">
+                        <!-- Content Injected via JS -->
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="flavorModal" class="fixed inset-0 z-50 hidden" aria-labelledby="flavor-modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop Overlay -->
+        <div id="flavorOverlay" class="fixed inset-0 bg-cacau-900/85 backdrop-blur-md transition-opacity duration-300 opacity-0" onclick="closeFlavorModal()"></div>
+
+        <div class="fixed inset-0 z-10 overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                
+                <div id="flavorPanel" class="relative transform overflow-hidden rounded-3xl bg-white text-left shadow-2xl transition-all duration-300 sm:my-8 sm:w-full sm:max-w-lg w-full scale-95 opacity-0 border border-gold/30">
+                    
+                    <!-- Modal Header -->
+                    <div class="bg-cacau-800 px-6 py-5 text-white flex items-center justify-between border-b border-cacau-700">
+                        <div>
+                            <h3 class="text-xl font-serif font-bold text-cacau-50" id="modalProductName">Escolha os Sabores</h3>
+                            <p class="text-xs text-gold mt-0.5" id="modalProductCapacity">Selecione as opções do seu pedido</p>
+                        </div>
+                        <button type="button" onclick="closeFlavorModal()" class="text-cacau-300 hover:text-white p-2 rounded-xl hover:bg-cacau-700 transition-colors">
+                            <i class="ph ph-x text-2xl"></i>
+                        </button>
+                    </div>
+
+                    <div class="px-6 py-5 bg-cacau-50/60">
+                        
+                        <!-- Dynamic Box Progress Indicator -->
+                        <div class="mb-5 bg-white p-4 rounded-2xl border border-cacau-200 shadow-sm">
+                            <div class="flex items-center justify-between mb-2">
+                                <div>
+                                    <span class="text-[11px] font-bold text-cacau-600 uppercase tracking-wider block">Progresso da Seleção</span>
+                                    <span id="flavorCountDisplay" class="text-sm font-extrabold text-cacau-900">0 selecionados</span>
+                                </div>
+                                <div id="flavorStatusBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 transition-all text-center">
+                                    Monte sua combinação
+                                </div>
+                            </div>
+                            <!-- Visual Progress Bar -->
+                            <div class="w-full bg-cacau-100 h-2.5 rounded-full overflow-hidden border border-cacau-200">
+                                <div id="flavorProgressBar" class="bg-gradient-to-r from-gold to-cacau-500 h-full w-0 transition-all duration-300 rounded-full"></div>
+                            </div>
+                        </div>
+
+                        <!-- Flavors List Container (Carousel for Mobile/Tablet) -->
+                        <div class="relative">
+                            <p class="text-[10px] uppercase tracking-widest text-cacau-400 text-center mb-3 flex items-center justify-center gap-1 animate-pulse">
+                                <i class="ph ph-arrows-left-right text-sm"></i> Deslize para ver os sabores
+                            </p>
+                            <div id="flavorList" class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 pt-1 px-1 no-scrollbar items-stretch">
+                                <!-- Injected dynamically via JS -->
+                            </div>
+                            <!-- Fade indicators for horizontal scroll -->
+                            <div class="absolute top-8 right-0 bottom-4 w-6 bg-gradient-to-l from-cacau-50/90 to-transparent pointer-events-none"></div>
+                            <div class="absolute top-8 left-0 bottom-4 w-6 bg-gradient-to-r from-cacau-50/90 to-transparent pointer-events-none"></div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Actions Footer -->
+                    <div class="bg-white px-6 py-4 flex flex-col sm:flex-row gap-3 border-t border-cacau-200">
+                        <button type="button" onclick="closeFlavorModal()" class="w-full sm:w-1/3 py-3 px-4 text-xs font-bold text-cacau-700 bg-cacau-100 hover:bg-cacau-200 rounded-xl transition-colors">
+                            Cancelar
+                        </button>
+                        <button type="button" id="confirmFlavorsBtn" disabled class="w-full sm:w-2/3 py-3 px-4 text-xs font-bold text-white bg-cacau-800 hover:bg-cacau-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                            <i class="ph ph-shopping-bag-open text-lg"></i>
+                            Adicionar ao Carrinho
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="cartModal" class="fixed inset-0 z-50 hidden" aria-labelledby="cart-drawer-title" role="dialog" aria-modal="true">
+        <div id="cartOverlay" class="fixed inset-0 bg-cacau-900/70 backdrop-blur-sm transition-opacity duration-300 opacity-0" onclick="closeCart()"></div>
+
+        <div class="fixed inset-0 overflow-hidden">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-6 sm:pl-10">
+                    
+                    <div id="cartPanel" class="pointer-events-auto w-screen max-w-md transform transition-transform ease-in-out duration-300 translate-x-full">
+                        <div class="flex h-full flex-col bg-white shadow-2xl">
+                            
+                            <!-- Cart Header -->
+                            <div class="px-6 py-5 bg-cacau-800 text-cacau-100 flex items-center justify-between shadow-md border-b border-gold/20">
+                                <div class="flex items-center gap-3">
+                                    <div class="p-2 bg-cacau-700 rounded-xl border border-gold/30">
+                                        <i class="ph-fill ph-shopping-bag text-xl text-gold"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-xl font-serif font-bold text-white" id="cart-drawer-title">Seu Carrinho</h2>
+                                        <p class="text-[11px] text-gold">Confira seus itens e finalize o pedido</p>
+                                    </div>
+                                </div>
+                                <button type="button" onclick="closeCart()" class="p-2 text-cacau-300 hover:text-white rounded-xl hover:bg-cacau-700 transition-colors focus:outline-none">
+                                    <i class="ph ph-x text-2xl"></i>
+                                </button>
+                            </div>
+
+                            <!-- Cart Items Body -->
+                            <div class="flex-1 overflow-y-auto p-6 bg-cacau-50/50 no-scrollbar">
+                                <div id="cartItemsList" class="space-y-4">
+                                    <!-- Dynamic Cart Items -->
+                                </div>
+
+                                <!-- Empty Cart State -->
+                                <div id="emptyCartMsg" class="text-center py-16 hidden">
+                                    <div class="w-20 h-20 bg-cacau-100/80 rounded-3xl flex items-center justify-center mx-auto mb-4 text-cacau-300 border border-cacau-200">
+                                        <i class="ph ph-shopping-bag-open text-4xl text-cacau-400"></i>
+                                    </div>
+                                    <h4 class="text-lg font-serif font-bold text-cacau-800 mb-1">Seu carrinho está vazio</h4>
+                                    <p class="text-cacau-500 text-xs max-w-xs mx-auto">Escolha uma de nossas opções no cardápio para dar início ao seu pedido.</p>
+                                </div>
+
+                                <!-- Checkout Customer Details Form -->
+                                <div id="checkoutForm" class="mt-8 border-t border-cacau-200/80 pt-6 space-y-4 hidden">
+                                    <h3 class="font-serif font-bold text-cacau-800 text-base flex items-center gap-2">
+                                        <i class="ph ph-user-circle text-gold text-xl"></i> Dados para Entrega / Retirada
+                                    </h3>
+
+                                    <div>
+                                        <label for="custName" class="block text-xs font-bold text-cacau-700 mb-1">Seu Nome Completo *</label>
+                                        <input type="text" id="custName" placeholder="Ex: Maria Silva" class="w-full text-sm px-4 py-2.5 rounded-xl border border-cacau-200 focus:outline-none focus:ring-2 focus:ring-cacau-500 bg-white shadow-sm">
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-xs font-bold text-cacau-700 mb-1">Opção de Entrega</label>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <label class="flex items-center justify-center gap-2 border border-cacau-200 p-2.5 rounded-xl cursor-pointer text-xs font-semibold bg-white hover:bg-cacau-50 transition-colors has-[:checked]:border-cacau-800 has-[:checked]:bg-cacau-100/80 has-[:checked]:text-cacau-900 shadow-sm">
+                                                <input type="radio" name="deliveryType" value="retirada" checked onchange="toggleAddressInput()" class="accent-cacau-800">
+                                                <span>Retirada no Local</span>
+                                            </label>
+                                            <label class="flex items-center justify-center gap-2 border border-cacau-200 p-2.5 rounded-xl cursor-pointer text-xs font-semibold bg-white hover:bg-cacau-50 transition-colors has-[:checked]:border-cacau-800 has-[:checked]:bg-cacau-100/80 has-[:checked]:text-cacau-900 shadow-sm">
+                                                <input type="radio" name="deliveryType" value="entrega" onchange="toggleAddressInput()" class="accent-cacau-800">
+                                                <span>Entrega em Casa</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Animated Address Container -->
+                                    <div id="addressContainer" class="hidden transition-all duration-300">
+                                        <label for="custAddress" class="block text-xs font-bold text-cacau-700 mb-1">Endereço Completo de Entrega *</label>
+                                        <textarea id="custAddress" rows="2" placeholder="Rua, Número, Bairro, Ponto de Referência" class="w-full text-sm px-4 py-2.5 rounded-xl border border-cacau-200 focus:outline-none focus:ring-2 focus:ring-cacau-500 bg-white shadow-sm"></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label for="custPayment" class="block text-xs font-bold text-cacau-700 mb-1">Forma de Pagamento</label>
+                                        <select id="custPayment" class="w-full text-sm px-4 py-2.5 rounded-xl border border-cacau-200 focus:outline-none focus:ring-2 focus:ring-cacau-500 bg-white text-cacau-800 shadow-sm">
+                                            <option value="Pix">Pix (Chave informada no atendimento)</option>
+                                            <option value="Cartão de Crédito/Débito">Cartão (Crédito ou Débito)</option>
+                                            <option value="Dinheiro">Dinheiro</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label for="custNotes" class="block text-xs font-bold text-cacau-700 mb-1">Observações do Pedido (opcional)</label>
+                                        <input type="text" id="custNotes" placeholder="Ex: Embalagem para presente, entregar após as 14h..." class="w-full text-sm px-4 py-2.5 rounded-xl border border-cacau-200 focus:outline-none focus:ring-2 focus:ring-cacau-500 bg-white shadow-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Cart Footer & Total CTA -->
+                            <div class="border-t border-cacau-200 px-6 py-5 bg-white shadow-inner">
+                                <div class="flex justify-between items-center text-lg font-serif font-bold text-cacau-900 mb-1">
+                                    <span>Total do Pedido</span>
+                                    <span id="cartTotal" class="text-cacau-800 text-xl font-sans">R$ 0,00</span>
+                                </div>
+                                <p class="text-[11px] text-cacau-500 mb-4">Taxa de entrega (caso opte por Entrega) será informada pelo WhatsApp.</p>
+                                
+                                <button id="checkoutBtn" class="w-full flex items-center justify-center gap-2 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 shadow-xl shadow-emerald-600/25 active:scale-[0.98] transition-all focus:outline-none text-sm">
+                                    <i class="ph-fill ph-whatsapp-logo text-2xl"></i>
+                                    <span>Enviar Pedido pelo WhatsApp</span>
+                                </button>
+                                
+                                <div class="mt-3 text-center">
+                                    <button type="button" onclick="closeCart()" class="text-xs font-semibold text-cacau-500 hover:text-cacau-800 transition-colors">
+                                        Continuar escolhendo
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-cacau-900 text-cacau-100 py-14 text-center border-t border-gold/20 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col items-center relative z-10">
+            <h4 class="font-serif text-2xl font-bold tracking-wide text-white mb-1">Dois Cacaus</h4>
+            <p class="text-sm text-gold font-medium mb-6">"Dois cacaus, o carinho que você merece"</p>
+
+            <a href="https://wa.me/5545991028227" target="_blank" class="inline-flex items-center gap-2 text-xs sm:text-sm text-white bg-cacau-800/90 hover:bg-emerald-600 px-5 py-2.5 rounded-xl border border-gold/40 transition-all mb-8 shadow-lg hover:scale-105">
+                <i class="ph-fill ph-whatsapp-logo text-xl text-emerald-400 group-hover:text-white"></i>
+                <span>Atendimento WhatsApp: +55 45 99102-8227</span>
+            </a>
+
+            <div class="w-full max-w-xs h-[1px] bg-cacau-800 my-4"></div>
+
+            <p class="text-[11px] text-cacau-400">© 2026 Dois Cacaus. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Floating Quick Cart Access Button -->
+    <button id="floatingCartBtn" onclick="openCart()" class="fixed bottom-6 right-6 z-30 bg-cacau-800 text-gold p-4 rounded-full shadow-gold-glow border-2 border-gold/60 hover:scale-110 active:scale-95 transition-all flex items-center justify-center gap-3 group">
+        <div class="relative">
+            <i class="ph-fill ph-shopping-bag text-2xl group-hover:rotate-12 transition-transform"></i>
+            <span id="floatingCartBadge" class="absolute -top-2.5 -right-2.5 inline-flex items-center justify-center px-2 py-0.5 text-xs font-black leading-none text-white bg-red-600 rounded-full shadow-md hidden border-2 border-cacau-800">
+                0
+            </span>
+        </div>
+        <span class="text-xs font-bold font-sans pr-1 text-white hidden sm:inline">Ver Carrinho</span>
+    </button>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-6 left-6 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
+    <script>
+        // =========================================================================
+        // ⚙️ CONFIGURAÇÃO DE SABORES E RECHEIOS (FÁCIL DE EDITAR)
+        // -------------------------------------------------------------------------
+        // Para adicionar, remover ou mudar um sabor, basta editar as listas abaixo!
+        // =========================================================================
+
+        // 🟢 SABORES DE BRIGADEIROS (Para a Caixa de Brigadeiros)
+        const brigadeiroFlavors = [
+            { id: 'tradicional',     name: 'Brigadeiro Tradicional', color: 'from-[#5A341E] to-[#3D2314]' },
+            { id: 'beijinho',        name: 'Beijinho', color: 'from-[#F3E2B8] to-[#DCC5B2]' },
+            { id: 'bicho-de-pe',     name: 'Bicho de Pé', color: 'from-[#E07A5F] to-[#D55D40]' },
+            { id: 'ferrero',         name: 'Ferrero Rocher', color: 'from-[#8A5A44] to-[#774936]' },
+            { id: 'ninho-nutella',   name: 'Ninho com Nutella', color: 'from-[#E9C46A] to-[#A36F4C]' },
+            { id: 'mms',             name: 'M&M\'s', color: 'from-[#E9C46A] to-[#F4A261]' }
+        ];
+
+        // =========================================================================
+        // 🛒 CATÁLOGO DE PRODUTOS
+        // =========================================================================
+        const products = [
+            {
+                id: 'caixa-4',
+                name: 'Caixa com 4 brigadeiros',
+                price: 12.00,
+                capacity: 4,
+                unit: 'brigadeiro',
+                description: 'Caixinha graciosa contendo 4 brigadeiros gourmet selecionados por você. Perfeita para presentear ou saborear no dia a dia.',
+                images: ['caixacacaus.jpe', 'caixacacaus_2.jpg'],
+                flavors: brigadeiroFlavors
+            }
+        ];
+
+        // State variables
+        let cart = [];
+        let currentModalProduct = null;
+        let selectedFlavorCounts = {};
+        let currentLightboxIndex = 0;
+        let currentProductGallery = [];
+
+        // DOM Element references
+        const productGrid = document.getElementById('productGrid');
+        const cartBadge = document.getElementById('cartBadge');
+        const floatingCartBadge = document.getElementById('floatingCartBadge');
+        
+        // Modal & Cart DOM Elements
+        const cartModal = document.getElementById('cartModal');
+        const cartOverlay = document.getElementById('cartOverlay');
+        const cartPanel = document.getElementById('cartPanel');
+        const cartItemsList = document.getElementById('cartItemsList');
+        const emptyCartMsg = document.getElementById('emptyCartMsg');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const cartTotal = document.getElementById('cartTotal');
+
+        // Flavor Modal DOM Elements
+        const flavorModal = document.getElementById('flavorModal');
+        const flavorOverlay = document.getElementById('flavorOverlay');
+        const flavorPanel = document.getElementById('flavorPanel');
+        const modalProductName = document.getElementById('modalProductName');
+        const modalProductCapacity = document.getElementById('modalProductCapacity');
+        const flavorCountDisplay = document.getElementById('flavorCountDisplay');
+        const flavorStatusBadge = document.getElementById('flavorStatusBadge');
+        const flavorProgressBar = document.getElementById('flavorProgressBar');
+        const flavorList = document.getElementById('flavorList');
+        const confirmFlavorsBtn = document.getElementById('confirmFlavorsBtn');
+
+        // Lightbox DOM Elements
+        const lightboxModal = document.getElementById('lightboxModal');
+        const lightboxOverlay = document.getElementById('lightboxOverlay');
+        const lightboxPanel = document.getElementById('lightboxPanel');
+        const lightboxMainImage = document.getElementById('lightboxMainImage');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxSubtitle = document.getElementById('lightboxSubtitle');
+        const lightboxThumbnails = document.getElementById('lightboxThumbnails');
+        const lightboxActionBtn = document.getElementById('lightboxActionBtn');
+
+        // Utility: Format currency in BRL
+        const formatPrice = (price) => {
+            return price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        };
+
+        // Utility: Pluralize words for the UI
+        const pluralize = (word, count) => {
+            if (count === 1) return word;
+            if (word.endsWith('e') || word.endsWith('o')) return word + 's';
+            return word + 's';
+        };
+
+        function renderProducts() {
+            productGrid.innerHTML = products.map((product, idx) => {
+                const btnLabel = product.capacity === 1 ? 'Escolher Sabor & Adicionar' : 'Escolher Sabores & Adicionar';
+                const mainImage = product.images ? product.images[0] : product.image;
+                const photoCount = product.images ? product.images.length : 1;
+                
+                return `
+                <div class="product-card bg-white rounded-3xl shadow-gourmet hover:shadow-gourmet-hover border border-cacau-200/80 overflow-hidden flex flex-col w-full max-w-sm transition-all duration-300 hover:-translate-y-2 group">
+                    
+                    <!-- Product Image Box -->
+                    <div class="h-64 sm:h-72 bg-cacau-100 relative overflow-hidden cursor-pointer" onclick="openLightboxForProduct('${product.id}')">
+                        <img src="${mainImage}" alt="${product.name}" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/400x400/3D2314/FFFFFF?text=Dois+Cacaus'" 
+                             class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                        
+                        <!-- Photos Count Badge -->
+                        <div class="absolute top-4 left-4 bg-cacau-900/85 backdrop-blur-md px-3 py-1 rounded-full border border-gold/30 shadow-md flex items-center gap-1.5 text-gold text-xs font-bold">
+                            <i class="ph ph-images text-sm"></i>
+                            <span>${photoCount} fotos</span>
+                        </div>
+
+                        <!-- Price Badge -->
+                        <div class="absolute top-4 right-4 bg-cacau-900/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-gold/40 shadow-lg">
+                            <span class="text-xs sm:text-sm font-bold text-gold">${formatPrice(product.price)}</span>
+                        </div>
+
+                        <!-- Click to Zoom Icon Overlay -->
+                        <div class="absolute inset-0 bg-cacau-900/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span class="bg-cacau-900/90 text-gold px-4 py-2 rounded-xl border border-gold/40 text-xs font-bold flex items-center gap-2 backdrop-blur-md">
+                                <i class="ph ph-magnifying-glass-plus text-base"></i> Ver Fotos (${photoCount})
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="p-6 sm:p-7 flex flex-col flex-grow bg-white">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="text-xl font-serif font-bold text-cacau-900">${product.name}</h4>
+                        </div>
+                        
+                        <p class="text-cacau-600 text-xs sm:text-sm mb-6 flex-grow leading-relaxed">${product.description}</p>
+                        
+                        <!-- Action CTA -->
+                        <button onclick="openFlavorModal('${product.id}')" class="w-full bg-cacau-800 hover:bg-cacau-700 active:bg-cacau-900 text-white font-bold py-3.5 px-4 rounded-2xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-cacau-800/20 text-xs tracking-wide">
+                            <i class="ph ph-plus-circle text-lg text-gold"></i>
+                            ${btnLabel}
+                        </button>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function openFlavorModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            currentModalProduct = product;
+            selectedFlavorCounts = {};
+            
+            const activeFlavors = product.flavors || brigadeiroFlavors;
+            activeFlavors.forEach(f => selectedFlavorCounts[f.id] = 0);
+
+            modalProductName.innerText = product.name;
+            const itemText = pluralize(product.unit, product.capacity);
+            
+            if (product.capacity === 1) {
+                modalProductCapacity.innerText = `Selecione o recheio para o seu ${product.unit}`;
+            } else {
+                modalProductCapacity.innerText = `Selecione exatamente ${product.capacity} ${itemText}`;
+            }
+
+            updateFlavorModalUI();
+
+            flavorModal.classList.remove('hidden');
+            setTimeout(() => {
+                flavorOverlay.classList.remove('opacity-0');
+                flavorOverlay.classList.add('opacity-100');
+                flavorPanel.classList.remove('scale-95', 'opacity-0');
+                flavorPanel.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFlavorModal() {
+            flavorOverlay.classList.remove('opacity-100');
+            flavorOverlay.classList.add('opacity-0');
+            flavorPanel.classList.remove('scale-100', 'opacity-100');
+            flavorPanel.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                flavorModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 250);
+        }
+
+        function updateFlavorModalUI() {
+            if (!currentModalProduct) return;
+
+            const currentTotal = Object.values(selectedFlavorCounts).reduce((a, b) => a + b, 0);
+            const capacity = currentModalProduct.capacity;
+            const percentage = Math.min(100, Math.round((currentTotal / capacity) * 100));
+
+            flavorCountDisplay.innerText = `${currentTotal} de ${capacity} selecionado(s)`;
+            flavorProgressBar.style.width = `${percentage}%`;
+
+            if (currentTotal === capacity) {
+                flavorStatusBadge.innerText = currentModalProduct.capacity === 1 ? 'Pronto! 🎉' : 'Caixa Completa! 🎉';
+                flavorStatusBadge.className = 'text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-center';
+                confirmFlavorsBtn.disabled = false;
+            } else {
+                const remaining = capacity - currentTotal;
+                const unitStr = pluralize(currentModalProduct.unit, remaining);
+                flavorStatusBadge.innerText = `Falta(m) ${remaining} ${unitStr}`;
+                flavorStatusBadge.className = 'text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-center';
+                confirmFlavorsBtn.disabled = true;
+            }
+
+            const activeFlavors = currentModalProduct.flavors || brigadeiroFlavors;
+
+            // Updated Carousel Design for Flavors
+            flavorList.innerHTML = activeFlavors.map(flavor => {
+                const count = selectedFlavorCounts[flavor.id] || 0;
+                const canAdd = currentTotal < capacity;
+                
+                // Styling per flavor to mimic visual characteristics
+                const bgGradient = flavor.color || 'from-[#5A341E] to-[#3D2314]';
+                const isLight = (flavor.id === 'beijinho' || flavor.id === 'mms');
+                const textColor = isLight ? 'text-cacau-900' : 'text-white';
+                
+                return `
+                <div class="snap-center shrink-0 w-[150px] sm:w-[170px] bg-white rounded-3xl border border-cacau-200/80 shadow-md flex flex-col overflow-hidden transition-all duration-300 ${count > 0 ? 'ring-2 ring-gold scale-[1.02] shadow-gold-glow' : ''}">
+                    
+                    <!-- Flavor Visual Card -->
+                    <div class="h-24 sm:h-28 bg-gradient-to-br ${bgGradient} w-full relative flex items-center justify-center p-3 text-center">
+                        <h5 class="font-bold ${textColor} text-sm drop-shadow-md z-10 leading-snug">${flavor.name}</h5>
+                    </div>
+                    
+                    <!-- Touch-Friendly Controls -->
+                    <div class="p-3 sm:p-4 flex flex-col items-center gap-2 bg-cacau-50/50 flex-grow justify-end">
+                        <span class="text-[9px] sm:text-[10px] uppercase font-bold text-cacau-400 tracking-wider">Quantidade</span>
+                        <div class="flex items-center w-full justify-between bg-white border border-cacau-300 rounded-2xl shadow-inner p-1">
+                            <button type="button" onclick="changeFlavorQuantity('${flavor.id}', -1)" ${count === 0 ? 'disabled' : ''} class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-cacau-800 hover:bg-cacau-100 disabled:opacity-30 disabled:cursor-not-allowed font-black rounded-xl transition-colors text-base sm:text-lg">
+                                -
+                            </button>
+                            <span class="text-sm sm:text-base font-extrabold text-cacau-900 w-6 text-center">${count}</span>
+                            <button type="button" onclick="changeFlavorQuantity('${flavor.id}', 1)" ${!canAdd ? 'disabled' : ''} class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-cacau-800 hover:bg-cacau-100 disabled:opacity-30 disabled:cursor-not-allowed font-black rounded-xl transition-colors text-base sm:text-lg">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function changeFlavorQuantity(flavorId, change) {
+            if (!currentModalProduct) return;
+            const currentTotal = Object.values(selectedFlavorCounts).reduce((a, b) => a + b, 0);
+            const capacity = currentModalProduct.capacity;
+            const currentCount = selectedFlavorCounts[flavorId] || 0;
+
+            if (change > 0 && currentTotal >= capacity) return;
+            if (change < 0 && currentCount <= 0) return;
+
+            selectedFlavorCounts[flavorId] = currentCount + change;
+            updateFlavorModalUI();
+        }
+
+        confirmFlavorsBtn.addEventListener('click', () => {
+            if (!currentModalProduct) return;
+
+            const activeFlavors = currentModalProduct.flavors || brigadeiroFlavors;
+
+            const chosenFlavors = activeFlavors
+                .filter(f => selectedFlavorCounts[f.id] > 0)
+                .map(f => ({
+                    id: f.id,
+                    name: f.name,
+                    quantity: selectedFlavorCounts[f.id]
+                }));
+
+            const cartItemId = `${currentModalProduct.id}-${Date.now()}`;
+            const primaryImage = currentModalProduct.images ? currentModalProduct.images[0] : currentModalProduct.image;
+
+            cart.push({
+                cartItemId: cartItemId,
+                id: currentModalProduct.id,
+                name: currentModalProduct.name,
+                price: currentModalProduct.price,
+                image: primaryImage,
+                capacity: currentModalProduct.capacity,
+                unit: currentModalProduct.unit,
+                flavors: chosenFlavors,
+                quantity: 1
+            });
+
+            closeFlavorModal();
+            renderCart();
+            showToast(`${currentModalProduct.name} adicionado(a) ao carrinho!`);
+            openCart();
+        });
+
+        // Open Lightbox filtered ONLY for the selected product's photos
+        function openLightboxForProduct(productId, index = 0) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const imgList = product.images || [product.image];
+            currentProductGallery = imgList.map((imgSrc, imgIdx) => ({
+                src: imgSrc, 
+                title: product.name, 
+                subtitle: `Foto ${imgIdx + 1} de ${imgList.length}`,
+                productId: product.id
+            }));
+
+            currentLightboxIndex = index;
+            updateLightboxUI();
+
+            lightboxModal.classList.remove('hidden');
+            setTimeout(() => {
+                lightboxOverlay.classList.remove('opacity-0');
+                lightboxOverlay.classList.add('opacity-100');
+                lightboxPanel.classList.remove('scale-95', 'opacity-0');
+                lightboxPanel.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightboxOverlay.classList.remove('opacity-100');
+            lightboxOverlay.classList.add('opacity-0');
+            lightboxPanel.classList.remove('scale-100', 'opacity-100');
+            lightboxPanel.classList.add('scale-95', 'opacity-0');
+
+            setTimeout(() => {
+                lightboxModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 250);
+        }
+
+        function updateLightboxUI() {
+            if (!currentProductGallery || currentProductGallery.length === 0) return;
+
+            const item = currentProductGallery[currentLightboxIndex];
+            if (!item) return;
+            
+            const product = products.find(p => p.id === item.productId);
+
+            lightboxMainImage.src = item.src;
+            lightboxTitle.innerText = item.title;
+            lightboxSubtitle.innerText = item.subtitle || `Foto ${currentLightboxIndex + 1} de ${currentProductGallery.length}`;
+
+            // Render thumbnails ONLY for this product
+            lightboxThumbnails.innerHTML = currentProductGallery.map((img, idx) => `
+                <button type="button" onclick="setLightboxImage(${idx})" class="w-12 h-12 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${idx === currentLightboxIndex ? 'border-gold scale-105 shadow-gold-glow' : 'border-cacau-700 opacity-60 hover:opacity-100'}">
+                    <img src="${img.src}" alt="Thumb" class="w-full h-full object-cover">
+                </button>
+            `).join('');
+
+            // Hide navigation arrows if only 1 photo exists for this product
+            const prevBtn = lightboxModal.querySelector('button[onclick="prevLightboxImage()"]');
+            const nextBtn = lightboxModal.querySelector('button[onclick="nextLightboxImage()"]');
+            if (prevBtn && nextBtn) {
+                if (currentProductGallery.length <= 1) {
+                    prevBtn.classList.add('hidden');
+                    nextBtn.classList.add('hidden');
+                } else {
+                    prevBtn.classList.remove('hidden');
+                    nextBtn.classList.remove('hidden');
+                }
+            }
+
+            // Customize button based on product type
+            if (product && product.capacity === 1) {
+                lightboxActionBtn.innerHTML = `<i class="ph ph-plus-circle text-lg"></i><span>Escolher Sabor</span>`;
+            } else {
+                lightboxActionBtn.innerHTML = `<i class="ph ph-plus-circle text-lg"></i><span>Montar esta Caixa</span>`;
+            }
+
+            // Link action button
+            lightboxActionBtn.onclick = () => {
+                closeLightbox();
+                setTimeout(() => openFlavorModal(item.productId), 280);
+            };
+        }
+
+        function prevLightboxImage() {
+            if (currentProductGallery.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex - 1 + currentProductGallery.length) % currentProductGallery.length;
+            updateLightboxUI();
+        }
+
+        function nextLightboxImage() {
+            if (currentProductGallery.length <= 1) return;
+            currentLightboxIndex = (currentLightboxIndex + 1) % currentProductGallery.length;
+            updateLightboxUI();
+        }
+
+        function setLightboxImage(idx) {
+            currentLightboxIndex = idx;
+            updateLightboxUI();
+        }
+
+        // Swipe gestures for touch devices on lightbox
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const touchArea = document.getElementById('lightboxTouchArea');
+
+        touchArea.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        touchArea.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 40) nextLightboxImage();
+            if (touchEndX > touchStartX + 40) prevLightboxImage();
+        }
+
+        function renderCart() {
+            if (cart.length === 0) {
+                cartItemsList.innerHTML = '';
+                emptyCartMsg.classList.remove('hidden');
+                checkoutForm.classList.add('hidden');
+                cartTotal.innerText = formatPrice(0);
+                updateBadge();
+                return;
+            }
+
+            emptyCartMsg.classList.add('hidden');
+            checkoutForm.classList.remove('hidden');
+            
+            let total = 0;
+            
+            cartItemsList.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+
+                // For capacity == 1 (e.g. Brownie), change the display label slightly
+                let flavorLabel = item.capacity === 1 ? 'Sabor/Recheio:' : 'Sabores selecionados:';
+                
+                const flavorsSummary = item.flavors.map(f => {
+                    return item.capacity === 1 ? f.name : `${f.quantity}x ${f.name}`;
+                }).join(', ');
+
+                return `
+                <div class="flex flex-col p-4 bg-white rounded-2xl border border-cacau-200/80 shadow-sm gap-2.5">
+                    <div class="flex items-center gap-3">
+                        <img src="${item.image}" alt="${item.name}" 
+                             onerror="this.onerror=null; this.src='https://placehold.co/100x100/3D2314/FFFFFF?text=Doce'"
+                             class="w-16 h-16 rounded-xl object-cover flex-shrink-0 bg-cacau-100 border border-cacau-200">
+
+                        <div class="flex-1 min-w-0">
+                            <h5 class="text-xs sm:text-sm font-bold text-cacau-900 truncate">${item.name}</h5>
+                            <p class="text-xs text-cacau-500 mb-1">${formatPrice(item.price)} cada</p>
+                            
+                            <div class="flex items-center justify-between mt-1">
+                                <div class="flex items-center border border-cacau-200 rounded-lg bg-cacau-50/50 overflow-hidden">
+                                    <button onclick="updateCartQuantity('${item.cartItemId}', -1)" class="px-2.5 py-0.5 text-cacau-800 hover:bg-cacau-200 font-bold text-sm transition-colors">-</button>
+                                    <span class="px-2 text-xs font-bold text-cacau-900">${item.quantity}</span>
+                                    <button onclick="updateCartQuantity('${item.cartItemId}', 1)" class="px-2.5 py-0.5 text-cacau-800 hover:bg-cacau-200 font-bold text-sm transition-colors">+</button>
+                                </div>
+                                <span class="text-sm font-bold text-cacau-800">${formatPrice(itemTotal)}</span>
+                            </div>
+                        </div>
+
+                        <button onclick="removeFromCart('${item.cartItemId}')" class="p-2 text-cacau-400 hover:text-red-500 transition-colors" title="Remover item">
+                            <i class="ph ph-trash text-xl"></i>
+                        </button>
+                    </div>
+
+                    <!-- Flavors Summary Badge -->
+                    <div class="bg-cacau-50 p-2.5 rounded-xl border border-cacau-200/60 text-[11px] text-cacau-800">
+                        <span class="font-bold text-cacau-900 block mb-0.5">${flavorLabel}</span>
+                        <p class="leading-tight text-cacau-700">${flavorsSummary}</p>
+                    </div>
+                </div>
+                `;
+            }).join('');
+
+            cartTotal.innerText = formatPrice(total);
+            updateBadge();
+        }
+
+        function updateBadge() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            [cartBadge, floatingCartBadge].forEach(badge => {
+                if (badge) {
+                    if (totalItems > 0) {
+                        badge.innerText = totalItems;
+                        badge.classList.remove('hidden');
+                    } else {
+                        badge.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        function updateCartQuantity(cartItemId, change) {
+            const itemIndex = cart.findIndex(item => item.cartItemId === cartItemId);
+            if (itemIndex === -1) return;
+
+            cart[itemIndex].quantity += change;
+
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+
+            renderCart();
+        }
+
+        function removeFromCart(cartItemId) {
+            cart = cart.filter(item => item.cartItemId !== cartItemId);
+            renderCart();
+        }
+
+        function toggleAddressInput() {
+            const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
+            const addressContainer = document.getElementById('addressContainer');
+            if (deliveryType === 'entrega') {
+                addressContainer.classList.remove('hidden');
+            } else {
+                addressContainer.classList.add('hidden');
+            }
+        }
+
+        function openCart() {
+            cartModal.classList.remove('hidden');
+            setTimeout(() => {
+                cartOverlay.classList.remove('opacity-0');
+                cartOverlay.classList.add('opacity-100');
+                cartPanel.classList.remove('translate-x-full');
+                cartPanel.classList.add('translate-x-0');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCart() {
+            cartOverlay.classList.remove('opacity-100');
+            cartOverlay.classList.add('opacity-0');
+            cartPanel.classList.remove('translate-x-0');
+            cartPanel.classList.add('translate-x-full');
+            
+            setTimeout(() => {
+                cartModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        document.getElementById('cartBtn').addEventListener('click', openCart);
+
+        // Toast Notification System
+        function showToast(message) {
+            const toastContainer = document.getElementById('toastContainer');
+            
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto bg-cacau-900 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 toast-enter max-w-xs border border-gold/40';
+            toast.innerHTML = `
+                <i class="ph-fill ph-check-circle text-gold text-xl flex-shrink-0"></i>
+                <span class="text-xs font-semibold">${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(100%)';
+                toast.style.transition = 'all 0.3s ease-in';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        document.getElementById('checkoutBtn').addEventListener('click', () => {
+            if (cart.length === 0) {
+                showToast('Seu carrinho está vazio!');
+                return;
+            }
+
+            const name = document.getElementById('custName').value.trim();
+            if (!name) {
+                showToast('Por favor, informe seu Nome Completo.');
+                document.getElementById('custName').focus();
+                return;
+            }
+
+            const deliveryType = document.querySelector('input[name="deliveryType"]:checked').value;
+            const address = document.getElementById('custAddress').value.trim();
+
+            if (deliveryType === 'entrega' && !address) {
+                showToast('Por favor, informe o Endereço Completo.');
+                document.getElementById('custAddress').focus();
+                return;
+            }
+
+            const payment = document.getElementById('custPayment').value;
+            const notes = document.getElementById('custNotes').value.trim();
+
+            let message = `🍫 *NOVO PEDIDO - DOIS CACAUS*\n`;
+            message += `---------------------------------\n\n`;
+            message += `👤 *Cliente:* ${name}\n\n`;
+
+            message += `🛒 *Itens do Pedido:*\n`;
+            let total = 0;
+            
+            cart.forEach((item) => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                message += `\n*${item.quantity}x ${item.name}* (${formatPrice(subtotal)})\n`;
+                message += `  _Sabores/Recheio:_\n`;
+                item.flavors.forEach(f => {
+                    const prefix = item.capacity === 1 ? '•' : `• ${f.quantity}x`;
+                    message += `  ${prefix} ${f.name}\n`;
+                });
+            });
+
+            message += `\n💰 *Total dos Produtos:* ${formatPrice(total)}\n\n`;
+
+            message += `🛵 *Tipo de Entrega:* ${deliveryType === 'entrega' ? 'Entrega em Casa' : 'Retirada no Local'}\n`;
+            if (deliveryType === 'entrega' && address) {
+                message += `📍 *Endereço:* ${address}\n`;
+            }
+
+            message += `💳 *Forma de Pagamento:* ${payment}\n`;
+
+            if (notes) {
+                message += `📝 *Observações:* ${notes}\n`;
+            }
+
+            message += `\n---------------------------------\n`;
+            message += `Aguardando confirmação do pedido! ✨`;
+
+            // Target WhatsApp phone number
+            const phoneNumber = '5545991028227'; 
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+            window.open(whatsappUrl, '_blank');
+        });
+
+        // Initialize application on DOM ready
+        renderProducts();
+        renderCart();
+
+    </script>
+</body>
+</html>
